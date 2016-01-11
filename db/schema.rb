@@ -11,7 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151225121611) do
+ActiveRecord::Schema.define(version: 20160111065633) do
+
+  create_table "addresses", force: :cascade do |t|
+    t.integer  "customer_id",                null: false
+    t.string   "type",                       null: false
+    t.string   "postal_code",                null: false
+    t.string   "prefecture",                 null: false
+    t.string   "city",                       null: false
+    t.string   "address1",                   null: false
+    t.string   "address2",                   null: false
+    t.string   "company_name",  default: "", null: false
+    t.string   "division_name", default: "", null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "addresses", ["customer_id"], name: "index_addresses_on_customer_id"
+  add_index "addresses", ["type", "customer_id"], name: "index_addresses_on_type_and_customer_id", unique: true
 
   create_table "administrators", force: :cascade do |t|
     t.string   "email",                           null: false
@@ -23,6 +40,46 @@ ActiveRecord::Schema.define(version: 20151225121611) do
   end
 
   add_index "administrators", ["email_for_index"], name: "index_administrators_on_email_for_index", unique: true
+
+  create_table "customers", force: :cascade do |t|
+    t.string   "email",            null: false
+    t.string   "email_for_index",  null: false
+    t.string   "family_name",      null: false
+    t.string   "given_name",       null: false
+    t.string   "family_name_kana", null: false
+    t.string   "given_name_kana",  null: false
+    t.string   "gender"
+    t.date     "birthday"
+    t.string   "hashed_password"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "customers", ["email_for_index"], name: "index_customers_on_email_for_index", unique: true
+  add_index "customers", ["family_name_kana", "given_name_kana"], name: "index_customers_on_family_name_kana_and_given_name_kana"
+
+  create_table "phones", force: :cascade do |t|
+    t.integer  "customer_id",                      null: false
+    t.integer  "address_id"
+    t.string   "number",                           null: false
+    t.string   "number_for_index",                 null: false
+    t.boolean  "primary",          default: false, null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+  end
+
+  add_index "phones", ["address_id"], name: "index_phones_on_address_id"
+  add_index "phones", ["customer_id"], name: "index_phones_on_customer_id"
+  add_index "phones", ["number_for_index"], name: "index_phones_on_number_for_index"
+
+  create_table "staff_events", force: :cascade do |t|
+    t.integer  "staff_member_id", null: false
+    t.string   "type",            null: false
+    t.datetime "created_at",      null: false
+  end
+
+  add_index "staff_events", ["created_at"], name: "index_staff_events_on_created_at"
+  add_index "staff_events", ["staff_member_id", "created_at"], name: "index_staff_events_on_staff_member_id_and_created_at"
 
   create_table "staff_members", force: :cascade do |t|
     t.string   "email",                            null: false

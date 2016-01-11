@@ -14,6 +14,13 @@ gem 'awesome_print'
 gem 'nokogiri', '~> 1.6.1'
 gem 'rails-i18n', '~> 4.0.1'
 gem 'slim-rails'
+gem 'foreigner', '~> 1.6.1'
+gem 'kaminari', '~> 0.15.1'
+gem 'date_validator', '~> 0.7.0'
+gem 'email_validator', '~> 1.4.0'
+gem 'jquery-ui-rails', '~> 4.2.1'
+gem 'quiet_assets', '~> 1.0.2', group: :development
+
 
 group :test do
   gem 'byebug'

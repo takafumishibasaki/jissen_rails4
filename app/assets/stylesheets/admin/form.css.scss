@@ -30,6 +30,9 @@ div#wrapper {
             display: inline-block;
           }
         }
+        div.input-block {
+          input { margin-right: $narrow * 2; }
+        }
         div.notes {
           text-align: right;
           font-size: $small;
@@ -40,8 +43,23 @@ div#wrapper {
         div.buttons {
           text-align: center;
           input[type='submit'] {
-            padding: $wide $very_wide;
+            padding: $wide $wide * 2;
           }
+        }
+        div.field_with_errors {
+          display: inline;
+          padding: 0;
+          label {
+            color: $red;
+          }
+          input {
+            background-color: $pink;
+          }
+        }
+        div.error-message {
+          color: $red;
+          font-size: $small;
+          padding: 0 $very_wide;
         }
       }
     }
