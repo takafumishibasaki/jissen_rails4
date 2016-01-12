@@ -11,4 +11,8 @@ class AddressPresenter < ModelPresenter
     end
   end
 
+  def phones
+    object.phones.map(&:number)
+  end
+
 end

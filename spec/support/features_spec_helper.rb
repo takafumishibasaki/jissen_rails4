@@ -1,4 +1,4 @@
-module FeatureSpecHelper
+module FeaturesSpecHelper
 
   def switch_namespace(namespace)
     Capybara.app_host = "http://localhost:3000/" + namespace

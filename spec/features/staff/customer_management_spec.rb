@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature '職員による顧客管理' do
-  include FeatureSpecHelper
+  include FeaturesSpecHelper
   let(:staff_member) { create(:staff_member) }
   let!(:customer) { create(:customer) }
 
@@ -104,5 +104,20 @@ feature '職員による顧客管理' do
     expect(page).to have_css('header span.alert')
     expect(page).to have_css('div.field_with_errors input#form_customer_birthday')
     expect(page).to have_css('div.field_with_errors input#form_home_address_postal_code')
+  end
+
+  scenario '職員が勤務先データのない既存顧客に会社名の情報を追加する' do
+    customer.work_address.destroy
+    click_link '顧客管理'
+    first('table.listing').click_link '編集'
+
+    check '勤務先を入力する'
+    within('fieldset#work-address-fields') do
+      fill_in '会社名', with: 'テスト'
+    end
+    click_button '更新'
+
+    customer.reload
+    expect(customer.work_address.company_name).to eq('テスト')
   end
 end
