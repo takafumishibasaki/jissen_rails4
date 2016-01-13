@@ -1,3 +1,8 @@
 header
-  span.logo-mark BAUKIS
-  
+  = link_to 'BAUKIS', :admin_root, class: 'logo-mark'
+  = content_tag(:span, flash.notice, class: 'notice') if flash.notice
+  = content_tag(:span, flash.alert, class: 'notice') if flash.alert
+  - if current_customer
+    = link_to 'ログアウト', :customer_session, method: :delete
+  - else
+    = link_to 'ログイン', :customer_login
