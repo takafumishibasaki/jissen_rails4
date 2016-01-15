@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160112081356) do
+ActiveRecord::Schema.define(version: 20160114072730) do
 
   create_table "addresses", force: :cascade do |t|
     t.integer  "customer_id",                null: false
@@ -46,6 +46,19 @@ ActiveRecord::Schema.define(version: 20160112081356) do
 
   add_index "administrators", ["email_for_index"], name: "index_administrators_on_email_for_index", unique: true
 
+  create_table "allowed_sources", force: :cascade do |t|
+    t.string   "namespace",                  null: false
+    t.integer  "octet1",                     null: false
+    t.integer  "octet2",                     null: false
+    t.integer  "octet3",                     null: false
+    t.integer  "octet4",                     null: false
+    t.boolean  "wildcard",   default: false, null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "allowed_sources", ["namespace", "octet1", "octet2", "octet3", "octet4"], name: "index_allowed_sources_on_namespace_and_octets", unique: true
+
   create_table "customers", force: :cascade do |t|
     t.string   "email",            null: false
     t.string   "email_for_index",  null: false
@@ -76,6 +89,18 @@ ActiveRecord::Schema.define(version: 20160112081356) do
   add_index "customers", ["gender", "family_name_kana", "given_name_kana"], name: "index_customers_on_gender_and_furigana"
   add_index "customers", ["given_name_kana"], name: "index_customers_on_given_name_kana"
 
+  create_table "entries", force: :cascade do |t|
+    t.integer  "program_id",                  null: false
+    t.integer  "customer_id",                 null: false
+    t.boolean  "approved",    default: false, null: false
+    t.boolean  "canceled",    default: false, null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
+
+  add_index "entries", ["customer_id"], name: "index_entries_on_customer_id"
+  add_index "entries", ["program_id", "customer_id"], name: "index_entries_on_program_id_and_customer_id", unique: true
+
   create_table "phones", force: :cascade do |t|
     t.integer  "customer_id",                      null: false
     t.integer  "address_id"
@@ -91,6 +116,21 @@ ActiveRecord::Schema.define(version: 20160112081356) do
   add_index "phones", ["customer_id"], name: "index_phones_on_customer_id"
   add_index "phones", ["last_four_digits"], name: "index_phones_on_last_four_digits"
   add_index "phones", ["number_for_index"], name: "index_phones_on_number_for_index"
+
+  create_table "programs", force: :cascade do |t|
+    t.integer  "registrant_id",              null: false
+    t.string   "title",                      null: false
+    t.text     "description"
+    t.datetime "application_start_time",     null: false
+    t.datetime "application_end_time",       null: false
+    t.integer  "min_number_of_participants"
+    t.integer  "max_number_of_participants"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "programs", ["application_start_time"], name: "index_programs_on_application_start_time"
+  add_index "programs", ["registrant_id"], name: "index_programs_on_registrant_id"
 
   create_table "staff_events", force: :cascade do |t|
     t.integer  "staff_member_id", null: false

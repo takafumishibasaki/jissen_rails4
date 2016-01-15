@@ -21,11 +21,6 @@ module ErrorHandlers
       render 'errors/internal_server_error', status: 500
     end
 
-    def rescue403(e)
-      @exception = e
-      render 'errors/forbidden', status: 403
-    end
-
     def rescue404(e)
       @exception = e
       render 'errors/not_found', status: 404

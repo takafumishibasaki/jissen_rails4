@@ -1,0 +1,24 @@
+- @title = '許可IPアドレス一覧'
+h1 = @title
+
+div#generic-form.table-wrapper
+  div
+    = render 'new_allowed_source'
+    
+  = form_for :form, url: :delete_admin_allowed_sources, method: :delete do |f|
+  
+    table.listing
+      tr
+        th 削除
+        th IP アドレス
+        th 作成日時
+      - @allowed_sources.each_with_index do |s, index|
+        - p = AllowedSourcePresenter.new(s, self)
+        = f.fields_for :allowed_sources, s, index: index do |ff|  
+          = ff.hidden_field :id
+          tr
+            td.actions = ff.check_box :_destroy
+            td.ip = p.ip_address
+            td.date = p.created_at
+    div.buttons
+      = f.submit 'チェックしたIPアドレスを削除', data: { confirmed: '本当に削除しますか？' }

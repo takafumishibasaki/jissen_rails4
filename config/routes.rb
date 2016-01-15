@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     resource :account, except: [ :new, :create, :destroy ]
     resource :password, only: [ :show, :edit, :update ]
     resources :customers
+    resources :programs
   end
 
   namespace :admin do
@@ -17,6 +18,9 @@ Rails.application.routes.draw do
       resources :staff_events, only: [ :index ]
     end
     resources :staff_events, only: [ :index ]
+    resources :allowed_sources, only: [ :index, :create ] do
+      delete :delete, on: :collection
+    end
   end
 
   namespace :customer do
