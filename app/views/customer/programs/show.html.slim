@@ -8,24 +8,18 @@ div.table-wrapper
       th タイトル
       td = p.title
     tr
-      th 申し込み開始日
+      th 申し込み開始日時
       td.date = p.application_start_time
     tr
-      th 申し込み終了日
+      th 申し込み終了日時
       td.date = p.application_end_time
     tr
-      th 最少参加者数
+      th 最小参加者数
       td.numeric = p.min_number_of_participants
     tr
       th 最大参加者数
       td.numeric = p.max_number_of_participants
-    tr
-      th 申し込み件数
-      td.numeric = p.number_of_applicants
-    tr
-      th 登録職員
-      td = p.registrant
   
   div.description = @program.description
-
-  = render 'entries_form' if @program.number_of_applicants > 0
+  div
+    = p.apply_or_cancel_button

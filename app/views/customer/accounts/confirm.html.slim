@@ -1,0 +1,10 @@
+- @title = 'アカウントの更新（確認）'
+h1 = @title
+
+div#generic-form.confirming
+  = form_for @customer_form, as: 'form', url: :customer_account do |f|
+    p 以下の内容でアカウントを更新します。よろしいですか？
+    = render 'confirming_form', f: f
+    div.buttons
+      = f.submit '更新'
+      = f.submit '訂正', name: 'correct'

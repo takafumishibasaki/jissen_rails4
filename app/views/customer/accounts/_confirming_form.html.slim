@@ -1,0 +1,15 @@
+fieldset#customer-fields
+  legend 基本情報
+  = render 'customer_fields', f: f, confirming: true
+- if f.object.inputs_home_address
+  div
+    = f.hidden_field :inputs_home_address
+  fieldset#home-address-fields
+    legend 自宅住所
+    = render 'home_address_fields', f: f, confirming: true
+- if f.object.inputs_work_address
+  div
+    = f.hidden_field :inputs_work_address
+  fieldset#work-address-fields
+    legend 勤務先
+    = render 'work_address_fields', f: f, confirming: true

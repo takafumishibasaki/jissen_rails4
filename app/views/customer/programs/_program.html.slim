@@ -1,0 +1,8 @@
+- p = ProgramPresenter.new(program, self)
+tr
+  td = p.title
+  td.date = p.application_start_time
+  td.date = p.application_end_time
+  td.numeric = p.min_number_of_participants
+  td.numeric = p.max_number_of_participants
+  td.actions = link_to '詳細', [ :customer, program ]

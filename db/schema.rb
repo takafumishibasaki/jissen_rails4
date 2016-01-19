@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160114072730) do
+ActiveRecord::Schema.define(version: 20160118123113) do
 
   create_table "addresses", force: :cascade do |t|
     t.integer  "customer_id",                null: false
@@ -100,6 +100,31 @@ ActiveRecord::Schema.define(version: 20160114072730) do
 
   add_index "entries", ["customer_id"], name: "index_entries_on_customer_id"
   add_index "entries", ["program_id", "customer_id"], name: "index_entries_on_program_id_and_customer_id", unique: true
+
+  create_table "messages", force: :cascade do |t|
+    t.integer  "customer_id",                     null: false
+    t.integer  "staff_member_id"
+    t.integer  "root_id"
+    t.integer  "parent_id"
+    t.string   "type",                            null: false
+    t.string   "status",          default: "new", null: false
+    t.string   "subject",                         null: false
+    t.text     "body"
+    t.text     "remarks"
+    t.boolean  "discarded",       default: false, null: false
+    t.boolean  "deleted",         default: false, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "messages", ["customer_id", "deleted", "created_at"], name: "index_messages_on_customer_id_and_deleted_and_created_at"
+  add_index "messages", ["customer_id", "deleted", "status", "created_at"], name: "index_messages_on_c_d_s_c"
+  add_index "messages", ["customer_id", "discarded", "created_at"], name: "index_messages_on_customer_id_and_discarded_and_created_at"
+  add_index "messages", ["customer_id"], name: "index_messages_on_customer_id"
+  add_index "messages", ["root_id", "deleted", "created_at"], name: "index_messages_on_root_id_and_deleted_and_created_at"
+  add_index "messages", ["staff_member_id"], name: "index_messages_on_staff_member_id"
+  add_index "messages", ["type", "customer_id"], name: "index_messages_on_type_and_customer_id"
+  add_index "messages", ["type", "staff_member_id"], name: "index_messages_on_type_and_staff_member_id"
 
   create_table "phones", force: :cascade do |t|
     t.integer  "customer_id",                      null: false
