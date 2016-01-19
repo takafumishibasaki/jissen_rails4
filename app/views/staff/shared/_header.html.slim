@@ -7,3 +7,4 @@ header
   - else
     = link_to 'ログイン', :staff_login
   = link_to 'アカウント', :staff_account if current_staff_member
+  = number_of_unprocessed_messages if current_staff_member
