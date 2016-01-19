@@ -1,0 +1,37 @@
+- @title = case params[:action]
+- when 'index'
+  - '全メッセージ一覧'
+- when 'inbound'
+  - '問い合わせ一覧'
+- when 'outbound'
+  - '返信一覧'
+- when 'deleted'
+  - 'メッセージ一覧（ゴミ箱）'
+- else; raise
+
+h1 = @title
+
+div.table-wrapper
+  = paginate @messages
+  
+  table.listing
+    tr
+      th 種類
+      th 送信者
+      th 受信者
+      th 件名
+      th 作成日時
+      th アクション
+    - @messages.each do |m|
+      - p = MessagePresenter.new(m, self)
+      tr
+        td = p.type
+        td = p.sender
+        td = p.receiver
+        td = p.truncated_subject
+        td = p.created_at
+        td.actions
+          = link_to '詳細', staff_message_path(m)
+          = link_to_if m.kind_of?(CustomerMessage), '削除', staff_message_path(m), method: :delete
+  
+  = paginate @messages
